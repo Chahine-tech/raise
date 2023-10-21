@@ -7,11 +7,11 @@ export type Env = {
 	DATABASE_URL: string;
 };
 
-type PostBody = {
-	name: string;
-	description: string;
-	price: number;
-};
+// type PostBody = {
+// 	name: string;
+// 	description: string;
+// 	price: number;
+// };
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -32,7 +32,7 @@ app.get('/', async (c) => {
 			{
 				error,
 			},
-			400
+			400,
 		);
 	}
 });
@@ -56,7 +56,7 @@ app.post('/', async (c) => {
 			{
 				error,
 			},
-			400
+			400,
 		);
 	}
 });

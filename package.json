@@ -7,6 +7,8 @@
     "dev": "wrangler dev",
     "generate": "drizzle-kit generate:pg",
     "migrate": "tsx src/db/migrate.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "start": "wrangler dev"
   },
   "devDependencies": {
@@ -21,6 +23,12 @@
   "dependencies": {
     "@neondatabase/serverless": "^0.6.0",
     "drizzle-orm": "^0.28.6",
+    "@typescript-eslint/eslint-plugin": "^6.7.5",
+    "@typescript-eslint/parser": "^6.7.5",
+    "eslint": "^8.51.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "prettier": "^3.0.3",
     "hono": "^3.8.2"
   }
 }
