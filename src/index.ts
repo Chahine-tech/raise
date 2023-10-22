@@ -2,18 +2,29 @@ import { drizzle } from 'drizzle-orm/neon-serverless';
 import { Pool } from '@neondatabase/serverless';
 import { products } from './db/schema';
 import { Hono } from 'hono';
+import { cors } from 'hono/cors';
+import { prettyJSON } from 'hono/pretty-json';
+import { logger } from 'hono/logger';
+import api from './router';
 
 export type Env = {
 	DATABASE_URL: string;
 };
 
-// type PostBody = {
-// 	name: string;
-// 	description: string;
-// 	price: number;
-// };
+type PostBody = {
+	name: string;
+	description: string;
+	price: number;
+};
 
 const app = new Hono<{ Bindings: Env }>();
+
+app.use('*', logger());
+app.use('*', prettyJSON());
+app.use('/api/*', cors());
+
+app.route('/api', api);
+app.notFound((c) => c.json({ message: 'Not Found', ok: false }, 404));
 
 app.get('/', async (c) => {
 	try {
@@ -43,7 +54,7 @@ app.post('/', async (c) => {
 
 		const db = drizzle(client);
 
-		const body = await c.req.json();
+		const body: PostBody = await c.req.json();
 
 		const result = await db.insert(products).values(body);
 

@@ -8,6 +8,13 @@
       "when": 1697906181273,
       "tag": "0000_mixed_dragon_man",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1697919256958,
+      "tag": "0001_material_doomsday",
+      "breakpoints": true
     }
   ]
 }

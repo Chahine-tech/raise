@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20230419.0",
+    "@types/bcryptjs": "^2.4.5",
     "dotenv": "^16.3.1",
     "drizzle-kit": "^0.19.13",
     "postgres": "^3.4.0",
@@ -22,13 +23,14 @@
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.6.0",
-    "drizzle-orm": "^0.28.6",
     "@typescript-eslint/eslint-plugin": "^6.7.5",
     "@typescript-eslint/parser": "^6.7.5",
+    "bcryptjs": "^2.4.3",
+    "drizzle-orm": "^0.28.6",
     "eslint": "^8.51.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.1",
-    "prettier": "^3.0.3",
-    "hono": "^3.8.2"
+    "hono": "^3.8.2",
+    "prettier": "^3.0.3"
   }
 }
