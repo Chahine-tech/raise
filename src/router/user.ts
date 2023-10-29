@@ -1,12 +1,14 @@
 import { Pool } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-serverless';
 import { Hono } from 'hono';
+import { sign } from 'hono/jwt';
 import { users } from '../db/schema';
-import { hashPassword } from '../helpers/utils';
+import { comparePassword, hashPassword } from '../helpers/utils';
 import { eq } from 'drizzle-orm';
 
 export type Env = {
 	DATABASE_URL: string;
+	JWT_SECRET: string;
 };
 
 type PostBody = {
@@ -39,6 +41,54 @@ user.get('/', async (c) => {
 	}
 });
 
+user.post('/login', async (c) => {
+	try {
+		const client = new Pool({ connectionString: c.env.DATABASE_URL });
+		const db = drizzle(client);
+
+		const { email, password }: PostBody = await c.req.json();
+
+		const user = await db.select().from(users).where(eq(users.email, email)).limit(1);
+
+		if (user.length === 0) {
+			return c.json(
+				{
+					error: 'User not found',
+				},
+				404,
+			);
+		}
+
+		const isMatch = await comparePassword(password, user[0].password);
+
+		if (!isMatch) {
+			return c.json(
+				{
+					error: 'Invalid password',
+				},
+				400,
+			);
+		}
+
+		const secret = c.env.JWT_SECRET;
+		console.log(secret);
+		const token = await sign(user, secret);
+
+		return c.json({
+			user,
+			token,
+		});
+	} catch (error) {
+		console.log(error);
+		return c.json(
+			{
+				error,
+			},
+			400,
+		);
+	}
+});
+
 user.post('/register', async (c) => {
 	try {
 		const client = new Pool({ connectionString: c.env.DATABASE_URL });
@@ -57,9 +107,9 @@ user.post('/register', async (c) => {
 		}
 
 		//Verify if user already exists
-		const userExists = await db.select().from(users).where(eq(users.email, email));
+		const userExists = await db.select().from(users).where(eq(users.email, email)).limit(1);
 
-		if (userExists) {
+		if (userExists.length > 0) {
 			return c.json(
 				{
 					error: 'User already exists',
@@ -76,8 +126,13 @@ user.post('/register', async (c) => {
 			password: encryptedPassword,
 		});
 
+		const secret = c.env.JWT_SECRET;
+		console.log(secret);
+		const token = await sign(result, secret);
+
 		return c.json({
 			result,
+			token,
 		});
 	} catch (error) {
 		console.log(error);
