@@ -1,10 +1,13 @@
-import { pgTable, serial, text, doublePrecision, timestamp } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, doublePrecision, timestamp, integer } from 'drizzle-orm/pg-core';
 
 export const products = pgTable('products', {
 	id: serial('id').primaryKey(),
 	name: text('name'),
 	description: text('description'),
 	price: doublePrecision('price'),
+	ownerId: integer('owner_id')
+		.notNull()
+		.references(() => users.id),
 });
 
 export const users = pgTable('users', {

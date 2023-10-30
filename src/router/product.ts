@@ -39,9 +39,9 @@ product.post('/', async (c) => {
 
 		const db = drizzle(client);
 
-		const body: PostBody = await c.req.json();
+		const { name, ownerId, description, price }: PostBody = await c.req.json();
 
-		const result = await db.insert(products).values(body);
+		const result = await db.insert(products).values({ name, ownerId, description, price });
 
 		return c.json({
 			result,

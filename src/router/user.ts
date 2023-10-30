@@ -5,17 +5,11 @@ import { sign } from 'hono/jwt';
 import { users } from '../db/schema';
 import { comparePassword, hashPassword } from '../helpers/utils';
 import { eq } from 'drizzle-orm';
+import { PostUserBody } from '../types';
 
 export type Env = {
 	DATABASE_URL: string;
 	JWT_SECRET: string;
-};
-
-type PostBody = {
-	name: string;
-	email: string;
-	password: string;
-	passwordConfirmation: string;
 };
 
 const user = new Hono<{ Bindings: Env }>();
@@ -25,7 +19,7 @@ user.post('/login', async (c) => {
 		const client = new Pool({ connectionString: c.env.DATABASE_URL });
 		const db = drizzle(client);
 
-		const { email, password }: PostBody = await c.req.json();
+		const { email, password }: PostUserBody = await c.req.json();
 
 		const user = await db.select().from(users).where(eq(users.email, email)).limit(1);
 
@@ -73,7 +67,7 @@ user.post('/register', async (c) => {
 		const client = new Pool({ connectionString: c.env.DATABASE_URL });
 		const db = drizzle(client);
 
-		const { name, email, password, passwordConfirmation }: PostBody = await c.req.json();
+		const { name, email, password, passwordConfirmation }: PostUserBody = await c.req.json();
 
 		//Verify if password and password confirmation match
 		if (password !== passwordConfirmation) {

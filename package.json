@@ -30,6 +30,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.1",
     "hono": "^3.8.2",
+    "pg": "^8.11.3",
     "prettier": "^3.0.3"
   }
 }
