@@ -20,27 +20,6 @@ type PostBody = {
 
 const user = new Hono<{ Bindings: Env }>();
 
-user.get('/', async (c) => {
-	try {
-		const client = new Pool({ connectionString: c.env.DATABASE_URL });
-		const db = drizzle(client);
-
-		const result = await db.select().from(users);
-
-		return c.json({
-			result,
-		});
-	} catch (error) {
-		console.log(error);
-		return c.json(
-			{
-				error,
-			},
-			400,
-		);
-	}
-});
-
 user.post('/login', async (c) => {
 	try {
 		const client = new Pool({ connectionString: c.env.DATABASE_URL });

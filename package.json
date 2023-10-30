@@ -8,8 +8,7 @@
     "generate": "drizzle-kit generate:pg",
     "migrate": "tsx src/db/migrate.ts",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "start": "wrangler dev"
+    "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20230419.0",
