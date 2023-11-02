@@ -23,7 +23,6 @@ product.get('/', async (c) => {
 			result,
 		});
 	} catch (error) {
-		console.log(error);
 		return c.json(
 			{
 				error,
@@ -47,7 +46,6 @@ product.post('/', async (c) => {
 			result,
 		});
 	} catch (error) {
-		console.log(error);
 		return c.json(
 			{
 				error,

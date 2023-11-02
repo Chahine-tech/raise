@@ -44,7 +44,6 @@ user.post('/login', async (c) => {
 		}
 
 		const secret = c.env.JWT_SECRET;
-		console.log(secret);
 		const token = await sign(user, secret);
 
 		return c.json({
@@ -52,7 +51,6 @@ user.post('/login', async (c) => {
 			token,
 		});
 	} catch (error) {
-		console.log(error);
 		return c.json(
 			{
 				error,
@@ -100,7 +98,6 @@ user.post('/register', async (c) => {
 		});
 
 		const secret = c.env.JWT_SECRET;
-		console.log(secret);
 		const token = await sign(result, secret);
 
 		return c.json({
@@ -108,7 +105,6 @@ user.post('/register', async (c) => {
 			token,
 		});
 	} catch (error) {
-		console.log(error);
 		return c.json(
 			{
 				error,
