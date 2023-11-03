@@ -2,7 +2,7 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { prettyJSON } from 'hono/pretty-json';
 import { logger } from 'hono/logger';
-import api from './router';
+import api from './routers';
 
 export type Env = {
 	DATABASE_URL: string;
