@@ -37,7 +37,6 @@ secured.get('/auth/user', async (c) => {
 			result,
 		});
 	} catch (error) {
-		console.log(error);
 		return c.json(
 			{
 				error,
